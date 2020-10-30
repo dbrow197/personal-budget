@@ -152,23 +152,24 @@
 
 
 function getBudget() {
-    const { data: budget_lists } = axios.get('/budget_lists');
+    axios.get('/personal_budget')
+    .then(function (res) {
+        console.log(res.data);
         //res.data.budget.length
-        budget_lists.forEach(budget_list => {
-                    data.datasets[0].data.push(budget_list.cost);
-                    data.datasets[0].backgroundColor.push(budget_list.color);
-                    data.labels.push(budget_list.title);
-    
-        // for (var i = 0; i < res.data.budget_lists.length; i++) {
-        //    dataSource.datasets[0].data[i] = res.data.budget_lists[i].budget;
-        //    dataSource.labels[i] = res.data.budget_lists[i].title;
-        //}
-       
+         for (var i = 0; i < res.data.length; i++) {
+                    dataSource.labels[i] = res.data[i].title;
+                    dataSource.datasets[0].data[i] = res.data[i].value;
+                    dataSource.datasets[0].backgroundColor[i] = res.data[i].color;
+        }
+        //   for (var i = 0; i < res.data.myBudget.length; i++) {
+        //     dataSource.datasets[0].data[i] = res.data.myBudget[i].budget;
+        //     dataSource.labels[i] = res.data.myBudget[i].title;
+        // }
          
-        
+        createChart();
     });
 }
-
+getBudget();
 
 </script>
 
