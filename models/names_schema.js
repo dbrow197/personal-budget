@@ -4,13 +4,18 @@ const mongoose = require("mongoose")
 const nameSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true, 
-        unique: true
-    }, 
-    budget: {
+        required: true,
+        maxLength: 25
+    },
+    cost: {
         type: Number,
-        required: true
-       
+        required: true,
+        min: 1.00
+    },
+    color: {
+        type: String,
+        required: true,
+        validator: [(hexColor) => (/^#[0-9A-F]{6}$/i).test(hexColor), 'Invalid hex color value']
     }
 }, { collection: 'budget_list'})
 

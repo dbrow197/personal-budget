@@ -128,7 +128,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js" integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg==" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
-
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
 <script>
         var dataSource = {
@@ -152,23 +152,23 @@
 
 
 function getBudget() {
-    axios.get('/budget_lists')
-    .then(function (res) {
-        console.log(res.data);
+    const { data: budget_lists } = axios.get('/budget_lists');
         //res.data.budget.length
-         for (var i = 0; i < res.data.budget_list.length; i++) {
-            dataSource.datasets[0].data[i] = res.data.myBudget[i].budget;
-            dataSource.labels[i] = res.data.myBudget[i].title;
-        }
-        //   for (var i = 0; i < res.data.myBudget.length; i++) {
-        //     dataSource.datasets[0].data[i] = res.data.myBudget[i].budget;
-        //     dataSource.labels[i] = res.data.myBudget[i].title;
-        // }
+        budget_lists.forEach(budget_list => {
+                    data.datasets[0].data.push(budget_list.cost);
+                    data.datasets[0].backgroundColor.push(budget_list.color);
+                    data.labels.push(budget_list.title);
+    
+        // for (var i = 0; i < res.data.budget_lists.length; i++) {
+        //    dataSource.datasets[0].data[i] = res.data.budget_lists[i].budget;
+        //    dataSource.labels[i] = res.data.budget_lists[i].title;
+        //}
+       
          
-        createChart();
+        
     });
 }
-getBudget();
+
 
 </script>
 

@@ -1,18 +1,25 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 const budgetModel = require("./models/names_schema")
 const app = express();
 const port = 5000;
 const url = 'mongodb://localhost:27017/personal_budget';
 
-app.use('/', express.static('public'));
+//app.use('/', express.static('public'));
 
 mongoose.connect(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
     useCreateIndex: true
-});
+})
+.then(() => {
+  console.log("Connected to the database")
+  budgetModel.find({})
+  .then((data) => {console.log(data)
+  })
+})
 
 let Budget_listSchema = new mongoose.Schema({
   title: {
