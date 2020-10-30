@@ -8,15 +8,17 @@ const nameSchema = new mongoose.Schema({
         required: true,
         maxLength: 25
     },
-    cost: {
+    budget: {
         type: Number,
         required: true,
-        min: 1.00
+        
     },
     color: {
         type: String,
-        required: true,
-        validator: [(hexColor) => (/^#[0-9A-F]{6}$/i).test(hexColor), 'Invalid hex color value']
+        trim: true,
+        required: true//,
+        
+        //validator: [(hexColor) => (/^#[0-9A-F]{6}$/i).test(hexColor), 'Invalid hex color value']
     }
 }, { collection: 'budget_list'})
 

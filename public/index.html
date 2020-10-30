@@ -106,12 +106,12 @@
                 </p>
             </div>
     
-            <div class="text-box">
+            <article>
                 <h1>Chart</h1>
                 <p>
                     <canvas id="myChart" width="400" height="400"></canvas>
                 </p>
-            </div>
+            </article>
 
         </div>
 
@@ -128,21 +128,21 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js" integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg==" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
 
 <script>
         var dataSource = {
             datasets: [
                 {
                     data: [],
-                    backgroundColor: [ ],
+                    backgroundColor: []
             }
         ],
-        labels: [ ]
+        labels: []
     };
 
     function createChart() {
-        var ctx = document.getElementById("myChart")
+        var ctx = document.getElementById("myChart").getContext("2d");
         var myPieChart = new Chart(ctx, {
             type: 'pie',
             data: dataSource
@@ -154,7 +154,7 @@
 function getBudget() {
     axios.get('/personal_budget')
     .then(function (res) {
-        console.log(res.data);
+        //console.log(res.data);
         //res.data.budget.length
          for (var i = 0; i < res.data.length; i++) {
                     dataSource.labels[i] = res.data[i].title;

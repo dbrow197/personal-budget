@@ -1,21 +1,22 @@
 const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const budgetModel = require("./models/names_schema")
 const app = express();
 const port = 5000;
+const budgetModel = require("./models/names_schema")
 const url = 'mongodb://localhost:27017/personal_budget';
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(cors());
 app.use('/', express.static('public'));
-app.use(express.json());
-
-
-
 
 
 app.get('/personal_budget', (req, res) => {
   mongoose.connect(url, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    useUnifiedTopology: true
   })
   .then(() => {
     budgetModel.find({})
@@ -23,33 +24,40 @@ app.get('/personal_budget', (req, res) => {
                     res.json(data);
                     mongoose.connection.close();
                 })
-                .catch((error) => {
-                    console.log(error);
-                });
+                .catch((connectionError) => {
+                    console.log(connectionError)
+                })
         })
-        .catch((error) => {
-            console.log(error);
-        });
+        .catch((connectionError) => {
+            console.log(connectionError)
+        })
 });
 
 app.post('/personal_budget', (req, res) => {
   mongoose.connect(url, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    useUnifiedTopology: true
   })
   .then(() => {
-    budgetModel.find({})
+    var budgetEntity = {
+        title: req.body.title,
+        budget: req.body.budget,
+        color: req.body.color
+    };
+    
+    budgetModel.insertMany(budgetEntity)
                 .then((data) => {
                     res.json(data);
                     mongoose.connection.close();
+                    console.log("Connection Closed");
                 })
-                .catch((error) => {
-                    console.log(error);
-                });
+                .catch((connectionError) => {
+                    console.log(connectionError)
+                })
         })
-        .catch((error) => {
-            console.log(error);
-        });
+        .catch((connectionError) => {
+            console.log(connectionError)
+        })
 });
 
 app.listen(port, () => {
